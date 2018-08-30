@@ -15,7 +15,10 @@
     "react-scripts": "1.1.5",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "validator": "^10.7.0"
+    "validator": "^10.7.0",
+    "babel-plugin-import": "^1.8.0",
+    "react-app-rewire-less": "^2.1.2",
+    "react-app-rewired": "^1.5.2"
   },
   "scripts": {
     "start": "NODE_ENV=DEV react-app-rewired start",
@@ -24,11 +27,7 @@
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {
-    "babel-plugin-import": "^1.8.0",
-    "react-app-rewire-less": "^2.1.2",
-    "react-app-rewired": "^1.5.2"
-  },
+  "devDependencies": {},
   "engines": {
     "node": "10.8.0",
     "npm": "6.3.0"
