@@ -22,7 +22,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
-    "postinstall": "if [ \"$NODE_ENV\" = production ]; then npm install --only=dev && npm install && npm run build; fi"
+    "heroku-postbuild": "npm install && npm install --only=dev && npm run build"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.8.0",
