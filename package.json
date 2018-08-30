@@ -18,11 +18,10 @@
     "validator": "^10.7.0",
     "babel-plugin-import": "^1.8.0",
     "react-app-rewire-less": "^2.1.2",
-    "react-app-rewired": "^1.5.2",
-    "serve": "10.0.0"
+    "react-app-rewired": "^1.5.2"
   },
   "scripts": {
-    "start": "serve -s build",
+    "start": "NODE_ENV=DEV react-app-rewired start",
     "start-dev": "set NODE_ENV=DEV && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
