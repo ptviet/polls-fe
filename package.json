@@ -18,11 +18,11 @@
     "validator": "^10.7.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "NODE_ENV=DEV react-app-rewired start",
+    "start-dev": "set NODE_ENV=DEV && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm install && npm install --only=dev && npm run build"
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.8.0",
