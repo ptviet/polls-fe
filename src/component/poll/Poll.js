@@ -116,15 +116,16 @@ class Poll extends Component {
     } else {
       pollObj = this.props.pollObj;
     }
-    if (isEmpty(pollObj) && this.props.poll.loading) {
-      return <LoadingIndicator />;
-    } else if (isEmpty(pollObj) && this.props.poll.loaded) {
+
+    if (isEmpty(pollObj) && this.props.poll.loaded) {
       return (
         <div>
           <span>No Polls Found</span>
         </div>
       );
-    } else
+    }
+
+    if (!isEmpty(pollObj)) {
       return (
         <div className="poll-content">
           <div className="poll-header">
@@ -193,6 +194,9 @@ class Poll extends Component {
           </div>
         </div>
       );
+    }
+
+    return <LoadingIndicator />;
   }
 }
 
