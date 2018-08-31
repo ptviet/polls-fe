@@ -217,7 +217,7 @@ class Poll extends Component {
                   this.copyToClipboard(pollObj.id);
                 }}
               >
-                Copy Link
+                Copy
               </Button>
             </span>
           </div>
