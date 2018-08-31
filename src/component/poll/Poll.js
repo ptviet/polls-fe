@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Poll.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Avatar, Radio, Button, notification } from 'antd';
+import { Avatar, Radio, Button, Divider, notification } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import LoadingIndicator from '../../common/LoadingIndicator';
 import CompletedOrVoted from './CompletedOrVoted';
@@ -191,7 +191,7 @@ class Poll extends Component {
                 ? 'Final results'
                 : this.getTimeRemaining(pollObj)}
             </span>
-            <hr />
+            <Divider dashed />
           </div>
           <div className="poll-choices">
             <Radio.Group
