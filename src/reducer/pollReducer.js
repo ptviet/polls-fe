@@ -90,7 +90,7 @@ export default function(state = initialState, action) {
           'id'
         );
       } else {
-        newResults = action.results;
+        newResults = action.results.content;
       }
 
       return {
