@@ -54,7 +54,7 @@ class Poll extends Component {
     document.execCommand('copy');
     textField.remove();
     notification.success({
-      message: 'Link copied to clipboard!'
+      message: 'Link copied!'
     });
   };
 
@@ -212,7 +212,7 @@ class Poll extends Component {
             </span>
             <span>
               <Button
-                className="copy-button"
+                type="dashed"
                 onClick={() => {
                   this.copyToClipboard(pollObj.id);
                 }}
