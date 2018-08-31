@@ -26,6 +26,7 @@ class Header extends Component {
       });
     } else {
       this.props.searchPolls(term);
+      this.refs.searchBar.input.input.value = '';
       this.props.history.push('/results');
     }
   };
@@ -72,6 +73,7 @@ class Header extends Component {
             </Col>
             <Col xs={9} sm={12} md={12} lg={12} xl={12}>
               <Input.Search
+                ref="searchBar"
                 placeholder="Search..."
                 onSearch={value => this.onSearch(value)}
                 className="search-bar"
