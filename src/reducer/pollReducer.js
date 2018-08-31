@@ -84,7 +84,7 @@ export default function(state = initialState, action) {
 
     case types.SEARCH_POLLS:
       let newResults;
-      if (searchTerm === action.term) {
+      if (state.searchTerm === action.term) {
         newResults = _.uniqBy(
           state.searchResults.content.concat(action.results.content),
           'id'
