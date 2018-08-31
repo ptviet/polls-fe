@@ -52,7 +52,7 @@ class Header extends Component {
       <Layout.Header className="app-header">
         <div className="container">
           <div className="app-title">
-            <Link to="/">Polls</Link>
+            <Link to="/">EziPoll</Link>
           </div>
           <Menu
             className="app-menu"

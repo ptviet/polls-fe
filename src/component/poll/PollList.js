@@ -93,7 +93,7 @@ class PollList extends Component {
   handleVoteSubmit = (event, poll, index) => {
     event.preventDefault();
     if (!this.props.auth.isAuthenticated) {
-      this.props.history.push('/login');
+      //this.props.history.push('/login');
       notification.info({
         message: 'Unauthorized',
         description: 'Please login to vote.'
