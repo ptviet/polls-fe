@@ -191,6 +191,7 @@ class Poll extends Component {
                 ? 'Final results'
                 : this.getTimeRemaining(pollObj)}
             </span>
+            <hr />
           </div>
           <div className="poll-choices">
             <Radio.Group
@@ -211,13 +212,6 @@ class Poll extends Component {
                 Vote
               </Button>
             )}
-            <span className="total-votes">{pollObj.totalVotes} votes</span>
-            <span className="separator">•</span>
-            <span className="time-left">
-              {pollObj.expired
-                ? 'Final results'
-                : this.getTimeRemaining(pollObj)}
-            </span>
             <span>
               <Button
                 type="dashed"
@@ -226,7 +220,7 @@ class Poll extends Component {
                   this.copyToClipboard(pollObj.id);
                 }}
               >
-                Copy
+                Copy Link
               </Button>
             </span>
           </div>
