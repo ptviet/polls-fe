@@ -83,10 +83,16 @@ export default function(state = initialState, action) {
       };
 
     case types.SEARCH_POLLS:
-      const newResults = _.uniqBy(
-        state.searchResults.content.concat(action.results.content),
-        'id'
-      );
+      let newResults;
+      if (searchTerm === action.term) {
+        newResults = _.uniqBy(
+          state.searchResults.content.concat(action.results.content),
+          'id'
+        );
+      } else {
+        newResults = action.results;
+      }
+
       return {
         ...state,
         searchResults: {
