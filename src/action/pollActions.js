@@ -48,6 +48,37 @@ export const getAllPolls = (page, size) => dispatch => {
     });
 };
 
+export const searchPolls = (term, page, size) => dispatch => {
+  page = page || 0;
+  size = size || POLL_LIST_SIZE;
+
+  dispatch(setPollLoading());
+
+  axios
+    .get(
+      API_BASE_URL +
+        '/polls/search?term=' +
+        term +
+        '&page=' +
+        page +
+        '&size=' +
+        size
+    )
+    .then(res => {
+      dispatch({
+        type: types.SEARCH_POLLS,
+        results: res.data,
+        term: term
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: types.GET_ERROR,
+        payload: err.response.data
+      });
+    });
+};
+
 export const getSinglePoll = id => dispatch => {
   dispatch(setPollLoading());
 

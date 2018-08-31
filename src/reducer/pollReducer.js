@@ -30,6 +30,15 @@ const initialState = {
   createdPollRes: {},
   votedPollRes: {},
   singlePoll: {},
+  searchResults: {
+    content: [],
+    page: 0,
+    size: 10,
+    totalElements: 0,
+    totalPages: 0,
+    last: true
+  },
+  searchTerm: '',
   loading: false,
   loaded: false
 };
@@ -69,6 +78,26 @@ export default function(state = initialState, action) {
           totalPages: action.polls.totalPages,
           last: action.polls.last
         },
+        loading: false,
+        loaded: true
+      };
+
+    case types.SEARCH_POLLS:
+      const newResults = _.uniqBy(
+        state.searchResults.content.concat(action.results.content),
+        'id'
+      );
+      return {
+        ...state,
+        searchResults: {
+          content: newResults,
+          page: action.results.page,
+          size: action.results.size,
+          totalElements: action.results.totalElements,
+          totalPages: action.results.totalPages,
+          last: action.results.last
+        },
+        searchTerm: action.term,
         loading: false,
         loaded: true
       };
@@ -125,6 +154,10 @@ export default function(state = initialState, action) {
 
     case types.CAST_VOTE:
       let updatedPolls = updatePolls(state.polls.content, action.votedPollRes);
+      let updatedSearchResults = updatePolls(
+        state.searchResults.content,
+        action.votedPollRes
+      );
       let updatedCreatedPolls = updatePolls(
         state.userCreatedPolls.polls,
         action.votedPollRes
@@ -134,6 +167,9 @@ export default function(state = initialState, action) {
         action.votedPollRes
       );
       const polls = Object.assign(state.polls, { content: updatedPolls });
+      const searchResults = Object.assign(state.searchResults, {
+        content: updatedSearchResults
+      });
       const userCreatedPolls = Object.assign(state.userCreatedPolls, {
         polls: updatedCreatedPolls
       });
@@ -147,6 +183,7 @@ export default function(state = initialState, action) {
         userVotedPolls: userVotedPolls,
         votedPollRes: action.votedPollRes,
         singlePoll: action.votedPollRes,
+        searchResults: searchResults,
         loading: false,
         loaded: true
       };

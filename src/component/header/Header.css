@@ -70,6 +70,11 @@
   margin-top: -4px;
 }
 
+.search-bar {
+  width: 100%;
+  margin: 0 auto;
+}
+
 @media (max-width: 768px) {
   .app-title a {
     font-size: 20px;

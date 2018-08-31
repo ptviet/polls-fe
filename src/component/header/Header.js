@@ -4,16 +4,29 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import pollIcon from '../../poll.svg';
 import './Header.css';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Input, notification } from 'antd';
+import { Row, Col } from 'antd';
 import ProfileDropdownMenu from './ProfileDropdownMenu';
 import { isEmpty } from '../../util';
 import { signOut } from '../../action/authActions';
+import { searchPolls } from '../../action/pollActions';
 
 class Header extends Component {
   handleMenuClick = ({ key }) => {
     if (key === 'logout') {
       this.props.signOut();
       this.props.history.push('/');
+    }
+  };
+
+  onSearch = term => {
+    if (isEmpty(term)) {
+      notification.error({
+        message: 'Please enter something'
+      });
+    } else {
+      this.props.searchPolls(term);
+      this.props.history.push('/results');
     }
   };
 
@@ -51,17 +64,30 @@ class Header extends Component {
     return (
       <Layout.Header className="app-header">
         <div className="container">
-          <div className="app-title">
-            <Link to="/">EziPoll</Link>
-          </div>
-          <Menu
-            className="app-menu"
-            mode="horizontal"
-            selectedKeys={[this.props.location.pathname]}
-            style={{ lineHeight: '64px' }}
-          >
-            {menuItems}
-          </Menu>
+          <Row>
+            <Col xs={4} sm={4} md={6} lg={6} xl={6}>
+              <div className="app-title">
+                <Link to="/">EziPoll</Link>
+              </div>
+            </Col>
+            <Col xs={9} sm={12} md={12} lg={12} xl={12}>
+              <Input.Search
+                placeholder="Search..."
+                onSearch={value => this.onSearch(value)}
+                className="search-bar"
+              />
+            </Col>
+            <Col xs={11} sm={8} md={6} lg={6} xl={6}>
+              <Menu
+                className="app-menu"
+                mode="horizontal"
+                selectedKeys={[this.props.location.pathname]}
+                style={{ lineHeight: '64px' }}
+              >
+                {menuItems}
+              </Menu>
+            </Col>
+          </Row>
         </div>
       </Layout.Header>
     );
@@ -69,7 +95,8 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  signOut: PropTypes.func.isRequired
+  signOut: PropTypes.func.isRequired,
+  searchPolls: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -79,5 +106,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { signOut }
+  { signOut, searchPolls }
 )(withRouter(Header));

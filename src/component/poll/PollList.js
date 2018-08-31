@@ -19,10 +19,6 @@ import {
 import { signOut } from '../../action/authActions';
 
 class PollList extends Component {
-  state = {
-    currentVotes: []
-  };
-
   componentWillMount() {
     this.loadPollList();
   }
@@ -134,7 +130,8 @@ class PollList extends Component {
         onClick={this.loadMore}
         disabled={this.props.poll.loading}
       >
-        <Icon type="plus" /> Load more
+        <Icon type="plus" />
+        Load more
       </Button>
     </div>
   );
