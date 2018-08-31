@@ -129,7 +129,7 @@ class PollList extends Component {
         polls.push(
           <Poll
             key={poll.id}
-            poll={poll}
+            pollObj={poll}
             currentVote={this.state.currentVotes[index]}
             handleVoteChange={event =>
               this.handleVoteChange(event, poll, index)
@@ -150,8 +150,8 @@ class PollList extends Component {
     </div>
   );
 
-  showNoPostsFound = () => {
-    if (!this.props.poll.loading) {
+  showNoPollsFound = () => {
+    if (!this.props.poll.loading && this.props.poll.loaded) {
       if (this.props.username) {
         if (this.props.type === 'USER_CREATED_POLLS') {
           if (isEmpty(this.props.poll.userCreatedPolls.polls)) {
@@ -206,7 +206,7 @@ class PollList extends Component {
     return (
       <div className="polls-container">
         {this.showPolls()}
-        {this.showNoPostsFound()}
+        {this.showNoPollsFound()}
         {this.showLoadMore()}
         {this.props.poll.loading && <LoadingIndicator />}
       </div>

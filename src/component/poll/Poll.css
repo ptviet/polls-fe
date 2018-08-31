@@ -67,6 +67,16 @@
   opacity: 0.4;
 }
 
+.copy-button {
+  border-radius: 15px;
+  margin-right: 15px;
+  color: #40a9ff;
+  border-color: #40a9ff;
+  background-color: #fff;
+  opacity: 0.4;
+  float: right;
+}
+
 .separator {
   margin-left: 10px;
   margin-right: 10px;

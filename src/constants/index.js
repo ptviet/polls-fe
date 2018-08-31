@@ -1,4 +1,5 @@
 export const API_BASE_URL = 'https://sp-polls-api.herokuapp.com/api';
+export const BASE_URL = 'https://ezipoll.herokuapp.com';
 
 export const ACCESS_TOKEN = 'PollsAccessToken';
 

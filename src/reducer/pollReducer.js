@@ -29,7 +29,9 @@ const initialState = {
   },
   createdPollRes: {},
   votedPollRes: {},
-  loading: false
+  singlePoll: {},
+  loading: false,
+  loaded: false
 };
 
 const updatePolls = (polls, votedPollRes) => {
@@ -67,7 +69,8 @@ export default function(state = initialState, action) {
           totalPages: action.polls.totalPages,
           last: action.polls.last
         },
-        loading: false
+        loading: false,
+        loaded: true
       };
 
     case types.GET_USER_CREATED_POLLS:
@@ -83,7 +86,8 @@ export default function(state = initialState, action) {
           totalPages: action.userCreatedPolls.totalPages,
           last: action.userCreatedPolls.last
         },
-        loading: false
+        loading: false,
+        loaded: true
       };
 
     case types.GET_USER_VOTED_POLLS:
@@ -99,14 +103,24 @@ export default function(state = initialState, action) {
           totalPages: action.userVotedPolls.totalPages,
           last: action.userVotedPolls.last
         },
-        loading: false
+        loading: false,
+        loaded: true
       };
 
     case types.CREATE_POLL:
       return {
         ...state,
         createdPollRes: action.createdPollRes,
-        loading: false
+        loading: false,
+        loaded: true
+      };
+
+    case types.GET_SINGLE_POLL:
+      return {
+        ...state,
+        singlePoll: action.singlePoll,
+        loading: false,
+        loaded: true
       };
 
     case types.CAST_VOTE:
@@ -132,7 +146,8 @@ export default function(state = initialState, action) {
         userCreatedPolls: userCreatedPolls,
         userVotedPolls: userVotedPolls,
         votedPollRes: action.votedPollRes,
-        loading: false
+        loading: false,
+        loaded: true
       };
 
     case types.POLL_RESET:

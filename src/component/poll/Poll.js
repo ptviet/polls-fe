@@ -1,26 +1,47 @@
 import React, { Component } from 'react';
 import './Poll.css';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Avatar, Radio, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Avatar, Radio, Button, notification } from 'antd';
+import { Link, withRouter } from 'react-router-dom';
 import LoadingIndicator from '../../common/LoadingIndicator';
 import CompletedOrVoted from './CompletedOrVoted';
 import { isEmpty, getAvatarColor, formatDateTime } from '../../util';
+import { BASE_URL } from '../../constants';
+import { getSinglePoll } from '../../action/pollActions';
 
 class Poll extends Component {
-  calculatePercentage = choice => {
-    if (this.props.poll.totalVotes === 0) {
+  componentWillMount() {
+    if (this.props.match.params.id) {
+      this.props.getSinglePoll(this.props.match.params.id);
+    }
+  }
+
+  copyToClipboard = pollId => {
+    var textField = document.createElement('textarea');
+    textField.innerText = `${BASE_URL}/poll/${pollId}`;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
+    notification.success({
+      message: 'Link copied to clipboard!'
+    });
+  };
+
+  calculatePercentage = (poll, choice) => {
+    if (poll.totalVotes === 0) {
       return 0;
     }
-    return (choice.voteCount * 100) / this.props.poll.totalVotes;
+    return (choice.voteCount * 100) / poll.totalVotes;
   };
 
-  isSelected = choice => {
-    return this.props.poll.selectedChoice === choice.id;
+  isSelected = (poll, choice) => {
+    return poll.selectedChoice === choice.id;
   };
 
-  getWinningChoice = () => {
-    return this.props.poll.choices.reduce(
+  getWinningChoice = poll => {
+    return poll.choices.reduce(
       (prevChoice, currentChoice) =>
         currentChoice.voteCount > prevChoice.voteCount
           ? currentChoice
@@ -56,26 +77,24 @@ class Poll extends Component {
     return timeRemaining;
   };
 
-  showChoices() {
+  showChoices(poll) {
     const pollChoices = [];
-    if (this.props.poll.selectedChoice || this.props.poll.expired) {
-      const winningChoice = this.props.poll.expired
-        ? this.getWinningChoice()
-        : null;
+    if (poll.selectedChoice || poll.expired) {
+      const winningChoice = poll.expired ? this.getWinningChoice(poll) : null;
 
-      this.props.poll.choices.forEach(choice => {
+      poll.choices.forEach(choice => {
         pollChoices.push(
           <CompletedOrVoted
             key={choice.id}
             choice={choice}
             isWinner={winningChoice && choice.id === winningChoice.id}
-            isSelected={this.isSelected(choice)}
-            percentVote={this.calculatePercentage(choice)}
+            isSelected={this.isSelected(poll, choice)}
+            percentVote={this.calculatePercentage(poll, choice)}
           />
         );
       });
     } else {
-      this.props.poll.choices.forEach(choice => {
+      poll.choices.forEach(choice => {
         pollChoices.push(
           <Radio
             className="poll-choice-radio"
@@ -91,8 +110,20 @@ class Poll extends Component {
   }
 
   render() {
-    if (isEmpty(this.props.poll)) {
+    let pollObj;
+    if (this.props.match.params.id) {
+      pollObj = this.props.poll.singlePoll;
+    } else {
+      pollObj = this.props.pollObj;
+    }
+    if (isEmpty(pollObj) && this.props.poll.loading) {
       return <LoadingIndicator />;
+    } else if (isEmpty(pollObj) && this.props.poll.loaded) {
+      return (
+        <div>
+          <span>No Polls Found</span>
+        </div>
+      );
     } else
       return (
         <div className="poll-content">
@@ -100,30 +131,28 @@ class Poll extends Component {
             <div className="poll-creator-info">
               <Link
                 className="creator-link"
-                to={`/users/${this.props.poll.createdBy.username}`}
+                to={`/users/${pollObj.createdBy.username}`}
               >
                 <Avatar
                   className="poll-creator-avatar"
                   style={{
-                    backgroundColor: getAvatarColor(
-                      this.props.poll.createdBy.name
-                    )
+                    backgroundColor: getAvatarColor(pollObj.createdBy.name)
                   }}
                 >
-                  {this.props.poll.createdBy.name[0].toUpperCase()}
+                  {pollObj.createdBy.name[0].toUpperCase()}
                 </Avatar>
                 <span className="poll-creator-name">
-                  {this.props.poll.createdBy.name}
+                  {pollObj.createdBy.name}
                 </span>
                 <span className="poll-creator-username">
-                  @{this.props.poll.createdBy.username}
+                  @{pollObj.createdBy.username}
                 </span>
                 <span className="poll-creation-date">
-                  {formatDateTime(this.props.poll.creationDateTime)}
+                  {formatDateTime(pollObj.creationDateTime)}
                 </span>
               </Link>
             </div>
-            <div className="poll-question">{this.props.poll.question}</div>
+            <div className="poll-question">{pollObj.question}</div>
           </div>
           <div className="poll-choices">
             <Radio.Group
@@ -131,11 +160,11 @@ class Poll extends Component {
               onChange={this.props.handleVoteChange}
               value={this.props.currentVote}
             >
-              {this.showChoices()}
+              {this.showChoices(pollObj)}
             </Radio.Group>
           </div>
           <div className="poll-footer">
-            {!(this.props.poll.selectedChoice || this.props.poll.expired) && (
+            {!(pollObj.selectedChoice || pollObj.expired) && (
               <Button
                 className="vote-button"
                 disabled={!this.props.currentVote}
@@ -144,14 +173,22 @@ class Poll extends Component {
                 Vote
               </Button>
             )}
-            <span className="total-votes">
-              {this.props.poll.totalVotes} votes
-            </span>
+            <span className="total-votes">{pollObj.totalVotes} votes</span>
             <span className="separator">•</span>
             <span className="time-left">
-              {this.props.poll.expired
+              {pollObj.expired
                 ? 'Final results'
-                : this.getTimeRemaining(this.props.poll)}
+                : this.getTimeRemaining(pollObj)}
+            </span>
+            <span>
+              <Button
+                className="copy-button"
+                onClick={() => {
+                  this.copyToClipboard(pollObj.id);
+                }}
+              >
+                Copy Link
+              </Button>
             </span>
           </div>
         </div>
@@ -159,4 +196,18 @@ class Poll extends Component {
   }
 }
 
-export default connect()(Poll);
+Poll.propTypes = {
+  getSinglePoll: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  error: state.error,
+  auth: state.auth,
+  user: state.user,
+  poll: state.poll
+});
+
+export default connect(
+  mapStateToProps,
+  { getSinglePoll }
+)(withRouter(Poll));

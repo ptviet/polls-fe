@@ -27,6 +27,7 @@ export const SET_PROFILE = 'SET_PROFILE';
 export const GET_USER_CREATED_POLLS = 'GET_USER_CREATED_POLLS';
 export const GET_USER_VOTED_POLLS = 'GET_USER_VOTED_POLLS';
 export const GET_ALL_POLLS = 'GET_ALL_POLLS';
+export const GET_SINGLE_POLL = 'GET_SINGLE_POLL';
 
 export const POLL_RESET = 'POLL_RESET';
 

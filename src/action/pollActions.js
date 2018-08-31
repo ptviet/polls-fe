@@ -48,6 +48,25 @@ export const getAllPolls = (page, size) => dispatch => {
     });
 };
 
+export const getSinglePoll = id => dispatch => {
+  dispatch(setPollLoading());
+
+  axios
+    .get(API_BASE_URL + `/polls/${id}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_SINGLE_POLL,
+        singlePoll: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: types.GET_ERROR,
+        payload: err.response.data
+      });
+    });
+};
+
 export const getUserCreatedPolls = (username, page, size) => dispatch => {
   page = page || 0;
   size = size || POLL_LIST_SIZE;
