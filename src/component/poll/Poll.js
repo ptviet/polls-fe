@@ -184,6 +184,13 @@ class Poll extends Component {
               </Link>
             </div>
             <div className="poll-question">{pollObj.question}</div>
+            <span className="total-votes">{pollObj.totalVotes} votes</span>
+            <span className="separator">•</span>
+            <span className="time-left">
+              {pollObj.expired
+                ? 'Final results'
+                : this.getTimeRemaining(pollObj)}
+            </span>
           </div>
           <div className="poll-choices">
             <Radio.Group
