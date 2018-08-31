@@ -23,6 +23,8 @@ class CompletedOrVoted extends Component {
           }
           style={{ width: this.props.percentVote + '%' }}
         />
+        <br />
+        <br />
       </div>
     );
   }
