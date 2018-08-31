@@ -22,7 +22,8 @@ class Header extends Component {
   onSearch = term => {
     if (isEmpty(term)) {
       notification.info({
-        message: 'Type something!'
+        message: 'Empty input',
+        description: 'Please type something!'
       });
     } else {
       this.props.searchPolls(term);
