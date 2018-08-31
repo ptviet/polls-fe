@@ -72,7 +72,7 @@ class Header extends Component {
                 <Link to="/">EziPoll</Link>
               </div>
             </Col>
-            <Col xs={9} sm={12} md={12} lg={12} xl={12}>
+            <Col xs={8} sm={12} md={12} lg={12} xl={12}>
               <Input.Search
                 ref="searchBar"
                 placeholder="Search..."
@@ -80,7 +80,7 @@ class Header extends Component {
                 className="search-bar"
               />
             </Col>
-            <Col xs={11} sm={8} md={6} lg={6} xl={6}>
+            <Col xs={12} sm={8} md={6} lg={6} xl={6}>
               <Menu
                 className="app-menu"
                 mode="horizontal"
