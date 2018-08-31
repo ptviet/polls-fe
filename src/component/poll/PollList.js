@@ -14,7 +14,6 @@ import {
   getUserVotedPolls,
   resetPoll,
   createPoll,
-  castVote,
   clearVoteRes
 } from '../../action/pollActions';
 import { signOut } from '../../action/authActions';
@@ -81,35 +80,6 @@ class PollList extends Component {
     }
   };
 
-  handleVoteChange = (event, poll, index) => {
-    const currentVotes = this.state.currentVotes.slice();
-    currentVotes[index] = event.target.value;
-
-    this.setState({
-      currentVotes: currentVotes
-    });
-  };
-
-  handleVoteSubmit = (event, poll, index) => {
-    event.preventDefault();
-    if (!this.props.auth.isAuthenticated) {
-      notification.info({
-        message: 'Unauthorized',
-        description: 'Please login to vote.'
-      });
-      return;
-    }
-
-    const selectedChoice = this.state.currentVotes[index];
-
-    const voteData = {
-      pollId: poll.id,
-      choiceId: selectedChoice
-    };
-
-    this.props.castVote(voteData);
-  };
-
   showPolls = () => {
     const polls = [];
     let data;
@@ -125,19 +95,7 @@ class PollList extends Component {
     }
     if (!isEmpty(data)) {
       data.forEach((poll, index) => {
-        polls.push(
-          <Poll
-            key={poll.id}
-            pollObj={poll}
-            currentVote={this.state.currentVotes[index]}
-            handleVoteChange={event =>
-              this.handleVoteChange(event, poll, index)
-            }
-            handleVoteSubmit={event =>
-              this.handleVoteSubmit(event, poll, index)
-            }
-          />
-        );
+        polls.push(<Poll key={poll.id} pollObj={poll} />);
       });
     }
     return polls;
@@ -219,7 +177,6 @@ PollList.propTypes = {
   getUserVotedPolls: PropTypes.func.isRequired,
   resetPoll: PropTypes.func.isRequired,
   createPoll: PropTypes.func.isRequired,
-  castVote: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
   clearVoteRes: PropTypes.func.isRequired
@@ -240,7 +197,6 @@ export default connect(
     getUserVotedPolls,
     resetPoll,
     createPoll,
-    castVote,
     signOut,
     clearError,
     clearVoteRes

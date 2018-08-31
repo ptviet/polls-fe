@@ -146,6 +146,7 @@ export default function(state = initialState, action) {
         userCreatedPolls: userCreatedPolls,
         userVotedPolls: userVotedPolls,
         votedPollRes: action.votedPollRes,
+        singlePoll: action.votedPollRes,
         loading: false,
         loaded: true
       };

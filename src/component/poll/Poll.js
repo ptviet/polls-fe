@@ -8,14 +8,43 @@ import LoadingIndicator from '../../common/LoadingIndicator';
 import CompletedOrVoted from './CompletedOrVoted';
 import { isEmpty, getAvatarColor, formatDateTime } from '../../util';
 import { BASE_URL } from '../../constants';
-import { getSinglePoll } from '../../action/pollActions';
-
+import { getSinglePoll, castVote } from '../../action/pollActions';
 class Poll extends Component {
+  state = {
+    currentVote: null
+  };
+
   componentWillMount() {
     if (this.props.match.params.id) {
       this.props.getSinglePoll(this.props.match.params.id);
     }
   }
+
+  handleVoteChange = event => {
+    this.setState({
+      currentVote: event.target.value
+    });
+  };
+
+  handleVoteSubmit = (event, poll) => {
+    event.preventDefault();
+    if (!this.props.auth.isAuthenticated) {
+      notification.info({
+        message: 'Unauthorized',
+        description: 'Please login to vote.'
+      });
+      return;
+    }
+
+    const selectedChoice = this.state.currentVote;
+
+    const voteData = {
+      pollId: poll.id,
+      choiceId: selectedChoice
+    };
+
+    this.props.castVote(voteData);
+  };
 
   copyToClipboard = pollId => {
     var textField = document.createElement('textarea');
@@ -158,8 +187,8 @@ class Poll extends Component {
           <div className="poll-choices">
             <Radio.Group
               className="poll-choice-radio-group"
-              onChange={this.props.handleVoteChange}
-              value={this.props.currentVote}
+              onChange={this.handleVoteChange}
+              value={this.state.currentVote}
             >
               {this.showChoices(pollObj)}
             </Radio.Group>
@@ -168,8 +197,8 @@ class Poll extends Component {
             {!(pollObj.selectedChoice || pollObj.expired) && (
               <Button
                 className="vote-button"
-                disabled={!this.props.currentVote}
-                onClick={this.props.handleVoteSubmit}
+                disabled={!this.state.currentVote}
+                onClick={event => this.handleVoteSubmit(event, pollObj)}
               >
                 Vote
               </Button>
@@ -201,7 +230,8 @@ class Poll extends Component {
 }
 
 Poll.propTypes = {
-  getSinglePoll: PropTypes.func.isRequired
+  getSinglePoll: PropTypes.func.isRequired,
+  castVote: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -213,5 +243,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getSinglePoll }
+  { getSinglePoll, castVote }
 )(withRouter(Poll));
