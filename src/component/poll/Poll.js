@@ -123,6 +123,7 @@ class Poll extends Component {
           />
         );
       });
+      pollChoices.push(<Divider dashed />);
     } else {
       poll.choices.forEach(choice => {
         pollChoices.push(
