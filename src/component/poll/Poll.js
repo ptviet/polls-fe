@@ -188,7 +188,7 @@ class Poll extends Component {
             <span className="separator">•</span>
             <span className="time-left">
               {pollObj.expired
-                ? 'Final results'
+                ? 'Ended'
                 : this.getTimeRemaining(pollObj)}
             </span>
             <Divider dashed />
