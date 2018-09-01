@@ -123,7 +123,6 @@ class Poll extends Component {
           />
         );
       });
-      pollChoices.push(<Divider dashed />);
     } else {
       poll.choices.forEach(choice => {
         pollChoices.push(
@@ -204,7 +203,7 @@ class Poll extends Component {
             </Radio.Group>
           </div>
           <div className="poll-footer">
-            {!(pollObj.selectedChoice || pollObj.expired) && (
+          //  {!(pollObj.selectedChoice || pollObj.expired) && (
               <Button
                 className="vote-button"
                 disabled={!this.state.currentVote}
@@ -212,8 +211,8 @@ class Poll extends Component {
               >
                 Vote
               </Button>
-            )}
-            <span>
+           // )}
+           // <span>
               <Button
                 type="dashed"
                 className="copy-button"
@@ -223,7 +222,7 @@ class Poll extends Component {
               >
                 Copy Link
               </Button>
-            </span>
+           // </span>
           </div>
         </div>
       );
