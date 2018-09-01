@@ -203,7 +203,6 @@ class Poll extends Component {
             </Radio.Group>
           </div>
           <div className="poll-footer">
-            {!(pollObj.selectedChoice || pollObj.expired) && (
               <Button
                 className="vote-button"
                 disabled={!this.state.currentVote}
@@ -211,8 +210,6 @@ class Poll extends Component {
               >
                 Vote
               </Button>
-            )}
-
               <Button
                 type="dashed"
                 className="copy-button"
@@ -222,7 +219,6 @@ class Poll extends Component {
               >
                 Copy Link
               </Button>
-
           </div>
         </div>
       );
