@@ -184,7 +184,7 @@ class Poll extends Component {
               </Link>
             </div>
             <div className="poll-question">{pollObj.question}</div>
-            <span className="total-votes">{pollObj.totalVotes > 1 ? "votes" : "vote"}</span>
+            <span className="total-votes">{pollObj.totalVotes}{pollObj.totalVotes > 1 ? " votes" : " vote"}</span>
             <span className="separator">•</span>
             <span className="time-left">
               {pollObj.expired
