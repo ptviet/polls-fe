@@ -93,13 +93,17 @@ class Poll extends Component {
     let timeRemaining;
 
     if (days > 0) {
-      timeRemaining = days + ' days left';
+      let day = days > 1 ? ' days left' : ' day left';
+      timeRemaining = days + day;
     } else if (hours > 0) {
-      timeRemaining = hours + ' hours left';
+      let hour = hours > 1 ? ' hours left' : ' hour left';
+      timeRemaining = hours + hour;
     } else if (minutes > 0) {
+      let minute = minutes > 1 ? ' minutes left' : ' minute left';
       timeRemaining = minutes + ' minutes left';
     } else if (seconds > 0) {
-      timeRemaining = seconds + ' seconds left';
+      let second = seconds > 1 ? ' seconds left' : ' second left';
+      timeRemaining = seconds + second;
     } else {
       timeRemaining = 'less than a second left';
     }
@@ -184,12 +188,13 @@ class Poll extends Component {
               </Link>
             </div>
             <div className="poll-question">{pollObj.question}</div>
-            <span className="total-votes">{pollObj.totalVotes}{pollObj.totalVotes > 1 ? " votes" : " vote"}</span>
+            <span className="total-votes">
+              {pollObj.totalVotes}
+              {pollObj.totalVotes > 1 ? ' votes' : ' vote'}
+            </span>
             <span className="separator">•</span>
             <span className="time-left">
-              {pollObj.expired
-                ? 'Ended'
-                : this.getTimeRemaining(pollObj)}
+              {pollObj.expired ? 'Ended' : this.getTimeRemaining(pollObj)}
             </span>
             <Divider dashed />
           </div>
@@ -203,22 +208,22 @@ class Poll extends Component {
             </Radio.Group>
           </div>
           <div className="poll-footer">
-              <Button
-                className="vote-button"
-                disabled={!this.state.currentVote}
-                onClick={event => this.handleVoteSubmit(event, pollObj)}
-              >
-                Vote
-              </Button>
-              <Button
-                type="dashed"
-                className="copy-button"
-                onClick={() => {
-                  this.copyToClipboard(pollObj.id);
-                }}
-              >
-                Copy Link
-              </Button>
+            <Button
+              className="vote-button"
+              disabled={!this.state.currentVote}
+              onClick={event => this.handleVoteSubmit(event, pollObj)}
+            >
+              Vote
+            </Button>
+            <Button
+              type="dashed"
+              className="copy-button"
+              onClick={() => {
+                this.copyToClipboard(pollObj.id);
+              }}
+            >
+              Copy Link
+            </Button>
           </div>
         </div>
       );
