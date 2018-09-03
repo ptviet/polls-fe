@@ -100,7 +100,7 @@ class Poll extends Component {
       timeRemaining = hours + hour;
     } else if (minutes > 0) {
       let minute = minutes > 1 ? ' minutes left' : ' minute left';
-      timeRemaining = minutes + ' minutes left';
+      timeRemaining = minutes + minute;
     } else if (seconds > 0) {
       let second = seconds > 1 ? ' seconds left' : ' second left';
       timeRemaining = seconds + second;
