@@ -162,7 +162,6 @@ class PollList extends Component {
       <LoadingOverlay
         background="transparent"
         active={this.props.poll.loading}
-        spinner
       >
         <div>
           {this.showPolls()}
