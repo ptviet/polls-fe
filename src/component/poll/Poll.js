@@ -14,6 +14,8 @@ class Poll extends Component {
     currentVote: null
   };
 
+  voted = false;
+
   componentWillMount() {
     if (this.props.match.params.id) {
       this.props.getSinglePoll(this.props.match.params.id);
@@ -44,6 +46,7 @@ class Poll extends Component {
     };
 
     this.props.castVote(voteData);
+    this.voted = true;
   };
 
   copyToClipboard = pollId => {
@@ -210,7 +213,12 @@ class Poll extends Component {
           <div className="poll-footer">
             <Button
               className="vote-button"
-              disabled={!this.state.currentVote}
+              disabled={
+                this.voted ||
+                !this.state.currentVote ||
+                this.props.poll.selectedChoice ||
+                this.props.poll.expired
+              }
               onClick={event => this.handleVoteSubmit(event, pollObj)}
             >
               Vote
