@@ -5,6 +5,7 @@ import Header from './component/header/Header';
 import Routes from './Routes';
 import { BrowserRouter } from 'react-router-dom';
 import { Layout, notification } from 'antd';
+import LoadingOverlay from 'react-loading-overlay';
 import { authenticateWithToken } from './action/authActions';
 
 class App extends Component {
@@ -24,12 +25,21 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Layout className="app-container">
-          <Header />
-          <Layout.Content className="app-content">
-            <Routes />
-          </Layout.Content>
-        </Layout>
+        <LoadingOverlay
+          background="transparent"
+          active={
+            this.props.auth.loading ||
+            this.props.user.loading ||
+            this.props.poll.loading
+          }
+        >
+          <Layout className="app-container">
+            <Header />
+            <Layout.Content className="app-content">
+              <Routes />
+            </Layout.Content>
+          </Layout>
+        </LoadingOverlay>
       </BrowserRouter>
     );
   }
@@ -37,6 +47,7 @@ class App extends Component {
 const mapStateToProps = state => ({
   auth: state.auth,
   user: state.user,
+  poll: state.poll,
   error: state.error
 });
 export default connect(

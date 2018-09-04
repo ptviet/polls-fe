@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LoadingOverlay from 'react-loading-overlay';
 import { Button, Icon, notification } from 'antd';
 import './PollList.css';
 import LoadingIndicator from '../../common/LoadingIndicator';
@@ -159,17 +158,12 @@ class PollList extends Component {
 
   render() {
     return (
-      <LoadingOverlay
-        background="transparent"
-        active={this.props.poll.loading}
-      >
-        <div>
-          {this.showPolls()}
-          {this.showNoPollsFound()}
-          {this.showLoadMore()}
-          {this.props.poll.loading && <LoadingIndicator />}
-        </div>
-      </LoadingOverlay>
+      <div>
+        {this.showPolls()}
+        {this.showNoPollsFound()}
+        {this.showLoadMore()}
+        {this.props.poll.loading && <LoadingIndicator />}
+      </div>
     );
   }
 }
