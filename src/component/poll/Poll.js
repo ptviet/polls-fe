@@ -164,74 +164,76 @@ class Poll extends Component {
 
     if (!isEmpty(pollObj)) {
       return (
-        <div className="poll-content">
-          <div className="poll-header">
-            <div className="poll-creator-info">
-              <Link
-                className="creator-link"
-                to={`/users/${pollObj.createdBy.username}`}
-              >
-                <Avatar
-                  className="poll-creator-avatar"
-                  style={{
-                    backgroundColor: getAvatarColor(pollObj.createdBy.name)
-                  }}
+        <div className="polls-container">
+          <div className="poll-content">
+            <div className="poll-header">
+              <div className="poll-creator-info">
+                <Link
+                  className="creator-link"
+                  to={`/users/${pollObj.createdBy.username}`}
                 >
-                  {pollObj.createdBy.name[0].toUpperCase()}
-                </Avatar>
-                <span className="poll-creator-name">
-                  {pollObj.createdBy.name}
-                </span>
-                <span className="poll-creator-username">
-                  @{pollObj.createdBy.username}
-                </span>
-                <span className="poll-creation-date">
-                  {formatDateTime(pollObj.creationDateTime)}
-                </span>
-              </Link>
+                  <Avatar
+                    className="poll-creator-avatar"
+                    style={{
+                      backgroundColor: getAvatarColor(pollObj.createdBy.name)
+                    }}
+                  >
+                    {pollObj.createdBy.name[0].toUpperCase()}
+                  </Avatar>
+                  <span className="poll-creator-name">
+                    {pollObj.createdBy.name}
+                  </span>
+                  <span className="poll-creator-username">
+                    @{pollObj.createdBy.username}
+                  </span>
+                  <span className="poll-creation-date">
+                    {formatDateTime(pollObj.creationDateTime)}
+                  </span>
+                </Link>
+              </div>
+              <div className="poll-question">{pollObj.question}</div>
+              <span className="total-votes">
+                {pollObj.totalVotes}
+                {pollObj.totalVotes > 1 ? ' votes' : ' vote'}
+              </span>
+              <span className="separator">•</span>
+              <span className="time-left">
+                {pollObj.expired ? 'Ended' : this.getTimeRemaining(pollObj)}
+              </span>
+              <Divider dashed />
             </div>
-            <div className="poll-question">{pollObj.question}</div>
-            <span className="total-votes">
-              {pollObj.totalVotes}
-              {pollObj.totalVotes > 1 ? ' votes' : ' vote'}
-            </span>
-            <span className="separator">•</span>
-            <span className="time-left">
-              {pollObj.expired ? 'Ended' : this.getTimeRemaining(pollObj)}
-            </span>
-            <Divider dashed />
-          </div>
-          <div className="poll-choices">
-            <Radio.Group
-              className="poll-choice-radio-group"
-              onChange={this.handleVoteChange}
-              value={this.state.currentVote}
-            >
-              {this.showChoices(pollObj)}
-            </Radio.Group>
-          </div>
-          <div className="poll-footer">
-            <Button
-              className="vote-button"
-              disabled={
-                this.voted ||
-                !this.state.currentVote ||
-                this.props.poll.selectedChoice ||
-                this.props.poll.expired
-              }
-              onClick={event => this.handleVoteSubmit(event, pollObj)}
-            >
-              Vote
-            </Button>
-            <Button
-              type="dashed"
-              className="copy-button"
-              onClick={() => {
-                this.copyToClipboard(pollObj.id);
-              }}
-            >
-              Copy Link
-            </Button>
+            <div className="poll-choices">
+              <Radio.Group
+                className="poll-choice-radio-group"
+                onChange={this.handleVoteChange}
+                value={this.state.currentVote}
+              >
+                {this.showChoices(pollObj)}
+              </Radio.Group>
+            </div>
+            <div className="poll-footer">
+              <Button
+                className="vote-button"
+                disabled={
+                  this.voted ||
+                  !this.state.currentVote ||
+                  this.props.poll.selectedChoice ||
+                  this.props.poll.expired
+                }
+                onClick={event => this.handleVoteSubmit(event, pollObj)}
+              >
+                Vote
+              </Button>
+              <Button
+                type="dashed"
+                className="copy-button"
+                onClick={() => {
+                  this.copyToClipboard(pollObj.id);
+                }}
+              >
+                Copy Link
+              </Button>
+            </div>
           </div>
         </div>
       );

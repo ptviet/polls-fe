@@ -158,7 +158,7 @@ class PollList extends Component {
 
   render() {
     return (
-      <div className="polls-container">
+      <div>
         {this.showPolls()}
         {this.showNoPollsFound()}
         {this.showLoadMore()}
